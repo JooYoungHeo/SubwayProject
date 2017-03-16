@@ -9,6 +9,8 @@ import {
   Image
 } from 'react-native';
 
+import SearchResults from './SearchResults';
+
 const styles = StyleSheet.create({
   description: {
       marginBottom: 20,
@@ -73,7 +75,7 @@ function urlForQueryAndPage(key, value, pageNumber){
 
   var querystring = Object.keys(data).map(key => key + '=' + encodeURIComponent(data[key])).join('&');
 
-  return 'http://api.nestoria.co.uk/api?' + querystring;
+  return 'https://api.nestoria.co.uk/api?' + querystring;
 };
 
 class SearchPage extends Component{
@@ -98,7 +100,9 @@ class SearchPage extends Component{
     this.setState({
       isLoading: true
     });
-    fetch(query).then(response => response.json()).then(json => this._handleResponse(json.response))
+    fetch(query)
+      .then(response => response.json())
+      .then(json => this._handleResponse(json.response))
       .catch(error => this.setState({
         isLoading: false,
         message: 'Something bad happened ' + error
@@ -111,12 +115,17 @@ class SearchPage extends Component{
   }
 
   _handleResponse(response){
+    console.log(response);
     this.setState({
       isLoading: false,
       message: ''
     });
     if(response.application_response_code.substr(0, 1) === '1'){
-      console.log('Properties found: ' + response.listings.length);
+      this.props.navigator.push({
+        title: 'Results',
+        component: SearchResults,
+        passProps: {listings: response.listings}
+      });
     } else {
       this.setState({
         message: 'Location not recognized; please try again.'

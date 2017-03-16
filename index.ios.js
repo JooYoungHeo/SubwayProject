@@ -24,7 +24,7 @@ class SubwayProject extends React.Component{
         return (
             <NavigatorIOS
                 style={styles.container}
-                initialRoute={{title: 'Subway Test App', component: SearchPage}} />
+                initialRoute={{title: 'Subway', component: SearchPage}} />
         );
     }
 }
