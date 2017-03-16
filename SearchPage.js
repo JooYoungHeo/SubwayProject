@@ -92,7 +92,6 @@ class SearchPage extends Component{
     this.setState({
       searchString: e.nativeEvent.text
     });
-    console.log(this.state.searchString);
   }
 
   _executeQuery(query){
